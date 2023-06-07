@@ -1,5 +1,5 @@
 <script setup> // here is possible to put JS directly in the component
-  import { reactive, ref, computed } from 'vue'
+import {reactive, ref, computed, onMounted, onUpdated, onUnmounted} from 'vue'
 
   const searchInput = ref('') // with ref we can use primitive types
 
@@ -40,12 +40,19 @@
         : `No repositories in ${state.name}`
   })
 
-  const searchingUser = computed(() => { // we can do that using v-model because will generate errors
-    return searchInput.value === ''
-        ? `Waiting for search...`
-        : `<p>Searching: <strong>https://api.github.com/users/${searchInput.value}</strong> </p>`
-        // : `<p>Searching: <strong>https://api.github.com/users/{{ searchInput }}</strong> </p>`
+  onMounted(() => { // this is a lifecycle hook that is called after the instance has mounted
+    // it's a good place to make API calls
+    console.log('Component mounted!')
   })
+
+  onUpdated(() => { // this is a lifecycle hook that is called after a reactive dependency has changed
+    console.log('Component updated!')
+  })
+
+  onUnmounted(() => { // this is a lifecycle hook that is called when the component is unmounted
+    console.log('Component unmounted!')
+  })
+
 </script>
 
 <template>
@@ -56,9 +63,6 @@
         <h2>GitHub User Data</h2>
         <hr>
 
-        <!-- v-html is a directive that allows us to pass HTML through to our templates. -->
-<!--        <div v-html="searchingUser"></div>-->
-
         <p>
           Searching:<br>
           <strong v-if="searchInput !== '' ">
@@ -68,9 +72,6 @@
         <form @submit="fetchSearchUser">
           <!-- v-model is a directive that allows us to create two-way data bindings on form input, textarea, and select elements. -->
           <input class="centered" type="text" v-model="searchInput">
-
-          <!-- v-model.lazy change instantaneously -->
-<!--          <input class="centered" type="text" v-model.lazy="searchInput">-->
           <br>
           <button class="btn btn-primary"> Search User </button>
           <br><br>
