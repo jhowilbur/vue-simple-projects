@@ -2,9 +2,7 @@
 
 This is a simple Vue 3 application that allows you to search for GitHub users and display their information. It utilizes the GitHub API to fetch user data based on the provided username.
 
-![image](https://github.com/jhowilbur/vue-simple-projects/assets/59379254/dcfc7725-e8f9-4ce4-952d-3e374dee2557)
-
-![image](https://github.com/jhowilbur/vue-simple-projects/assets/59379254/2090c561-79d8-47f2-86a4-14b10ef25f01)
+![image](https://github.com/jhowilbur/vue-simple-projects/assets/59379254/f520ced8-92e7-4447-8e7e-05e99a8f1cb1)
 
 ## Features
 
@@ -66,3 +64,5 @@ This project is licensed under the [MIT License](LICENSE).
 ## Acknowledgements
 
 - [Vue.js](https://vuejs.org/) - JavaScript framework for building user interfaces.
+
+![image](https://github.com/jhowilbur/vue-simple-projects/assets/59379254/dcfc7725-e8f9-4ce4-952d-3e374dee2557)
