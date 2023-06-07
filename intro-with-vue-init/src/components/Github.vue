@@ -1,18 +1,22 @@
 <script setup> // here is possible to put JS directly in the component
-  import { reactive } from 'vue'
+  import { reactive, ref } from 'vue'
 
-  const state = reactive({
+  // with ref we can use primitive types
+  const searchInput = ref('')
+
+  const state = reactive({ // here we are always using an object
     name: '',
     login: '',
     company: '',
     bio: '',
-    searchInput: '',
     avatar_url: '',
+    // searchInput: '',
     repos: []
   })
 
   async function fetchSearchUser() {
-    const res = await fetch(`https://api.github.com/users/${state.searchInput}`);
+    // const res = await fetch(`https://api.github.com/users/${state.searchInput}`);
+    const res = await fetch(`https://api.github.com/users/${searchInput.value}`); //to be able to manipulate the value of the ref we need to use .value
     const data = await res.json();
 
     state.name = data.name;
@@ -41,7 +45,8 @@
         <h2>GitHub User Data</h2>
         <hr>
 
-        <input class="centered" type="text" v-model="state.searchInput">
+<!--        <input class="centered" type="text" v-model="state.searchInput">-->
+        <input class="centered" type="text" v-model="searchInput">
         <br>
         <button type="button" class="btn btn-primary" @click="fetchSearchUser">
           Search User
@@ -58,20 +63,21 @@
           <span>{{state.bio}}</span>
         </div>
 
+        <h2>
+          {{ state.repos.length > 0
+            ? `Repositories (${state.repos.length})`
+            : `No repositories in ${state.name}`
+          }}
+        </h2>
+
         <section v-if="state.repos.length > 0">
           <h3>Repositories</h3>
           <hr><br>
-<!--          <ul>-->
-<!--            <li v-for="repo in state.repos">-->
-<!--              <a :href="repo.html_url" target="_blank">{{repo.name}}</a>-->
-<!--            </li>-->
-<!--          </ul>-->
+
           <article v-for="repo in state.repos">
-<!--            <div v-if="repo.full_name !== 'jhowilbur/Angular2-Game-DoYouWanToMillionaire'">-->
               <h4>{{repo.full_name}}</h4>
               <p>{{repo.description}}</p>
               <a :href="repo.html_url" target="_blank">Go to repository</a>
-<!--            </div>-->
           </article>
         </section>
 
