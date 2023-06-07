@@ -1,8 +1,7 @@
 <script setup> // here is possible to put JS directly in the component
-  import { reactive, ref } from 'vue'
+  import { reactive, ref, computed } from 'vue'
 
-  // with ref we can use primitive types
-  const searchInput = ref('')
+  const searchInput = ref('') // with ref we can use primitive types
 
   const state = reactive({ // here we are always using an object
     name: '',
@@ -35,6 +34,11 @@
     state.repos = data;
   }
 
+  const reposCount = computed(() => { // computed properties are cached based on their reactive dependencies
+    return state.repos.length > 0
+        ? `${state.repos.length}`
+        : `No repositories in ${state.name}`
+  })
 </script>
 
 <template>
@@ -63,15 +67,10 @@
           <span>{{state.bio}}</span>
         </div>
 
-        <h2>
-          {{ state.repos.length > 0
-            ? `Repositories (${state.repos.length})`
-            : `No repositories in ${state.name}`
-          }}
-        </h2>
-
         <section v-if="state.repos.length > 0">
+          <br>
           <h3>Repositories</h3>
+          <h4> {{ reposCount }} </h4>
           <hr><br>
 
           <article v-for="repo in state.repos">
